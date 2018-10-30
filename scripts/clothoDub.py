@@ -52,7 +52,7 @@ if __name__ == '__main__':
     # SRC POSE
     x0 = 0.0
     y0 = 0.0
-    theta0 = np.pi / 2.0
+    theta0 = 0
 
     # TARGET POSE
     x1 = 0.0
@@ -67,7 +67,25 @@ if __name__ == '__main__':
     path = dubins.shortest_path(q0, q1, turning_radius)
     configurations, _ = path.sample_many(step_size)
 
-    qs = np.array(configurations)
+    print("length of dubins path:")
+    print(path.path_length())
+
+    qs = []
+    qs.append(q0)
+    curr_len = 0.0
+
+    for i in range(3):
+        seg_len = path.segment_length(i)
+        curr_len += seg_len
+        print("length of segment %d: %f" % (i, seg_len) )
+
+        curr_q = path.sample(curr_len)
+        qs.append(curr_q)
+
+    # qs.append(q1)
+
+
+    qs = np.array(qs)
 
     print(qs[-1])
     
