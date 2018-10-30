@@ -5,8 +5,9 @@
 #include <boost/bind.hpp>
 #include <iostream>
 
-
+extern "C" {
 #include <dubins.h>
+}
 #include <Clothoid.h>
 
 
@@ -22,7 +23,7 @@ public:
         );
 
 private:
-        
+
 
     double m_min_turning_radius;
 };
