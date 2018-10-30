@@ -11,7 +11,7 @@ int main(int argc, char** argv)
 
     double target_pose[3] = {5.0, 1.0, -2.0};
 
-    std::vector<double[3]> path = clo.calculatePath(src_pose, target_pose);
+    std::vector<double*> path = clo.calculatePath(src_pose, target_pose);
     
 
     std::cout << "path size: " << path.size() << std::endl;
