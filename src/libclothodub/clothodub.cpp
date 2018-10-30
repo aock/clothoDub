@@ -16,9 +16,13 @@ std::vector<double[3]> ClothoDub::calculatePath(
     DubinsPath path;
     dubins_shortest_path(&path, q0, q1, m_min_turning_radius);
 
-    double step_size = 5.0;
+    // double path_len = dubins_path_length(&path);
+    // std::cout << "Dubins path length: " << path_len << std::endl;
 
-    dubins_path_sample_many(&path,  0.1, printConfiguration, NULL);
+    for(int i=0; i<3; i++)
+    {
+        // double dubins_segment_length = dubins_segment_length(path, i);
+    }
 
     return out_path;
 }

@@ -52,7 +52,7 @@ if __name__ == '__main__':
     # SRC POSE
     x0 = 0.0
     y0 = 0.0
-    theta0 = 0
+    theta0 = np.pi / 2.0
 
     # TARGET POSE
     x1 = 0.0

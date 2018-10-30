@@ -1,8 +1,14 @@
 #pragma once
 
 #include <vector>
+#include <boost/function.hpp>
+#include <boost/bind.hpp>
+#include <iostream>
+
+
 #include <dubins.h>
 #include <Clothoid.h>
+
 
 
 class ClothoDub {
@@ -16,5 +22,7 @@ public:
         );
 
 private:
+        
+
     double m_min_turning_radius;
 };

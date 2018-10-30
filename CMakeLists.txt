@@ -10,6 +10,7 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 
 include_directories(include)
+# link_directories(${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/lib)
 
 # C++11
 include(CheckCXXCompilerFlag)
@@ -34,19 +35,18 @@ endif(CMAKE_COMPILER_IS_GNUCC)
 
 add_subdirectory(ext/Dubins-Curves)
 include_directories(ext/Dubins-Curves/include)
+
 add_subdirectory(ext/g1fitting)
 include_directories(ext/g1fitting)
 
 # EXECUTABLES
 
-set(CLOTHO_DUB_SRCS
+add_executable(clothodub_test 
     src/tools/clothodub_test.cpp
     src/libclothodub/clothodub.cpp
 )
 
-set(CLOTHO_DUB_DEPS
-    g1fitting
+target_link_libraries(clothodub_test
     dubins
+    g1fitting
 )
-
-add_executable(clothodub_test ${CLOTHO_DUB_SRCS})
