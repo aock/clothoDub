@@ -39,6 +39,10 @@ def plot_dubins_path(qs):
 
 if __name__ == '__main__':
 
+    # TODO: port to C++
+    # https://github.com/AndrewWalker/Dubins-Curves
+    # https://github.com/ozymandium/g1fitting
+
     # DUBIN PARAMETER
     turning_radius = 5.0
     step_size = 5.0
