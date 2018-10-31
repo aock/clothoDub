@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <array>
 #include <boost/function.hpp>
 #include <boost/bind.hpp>
 #include <iostream>
@@ -14,16 +15,23 @@ extern "C" {
 
 class ClothoDub {
 public:
-    ClothoDub(double min_turning_radius);
+    ClothoDub(double min_turning_radius, bool use_clothoids = true, bool use_dubins = true);
 
-    std::vector<double*> calculatePath(
-            double q0[3],
-            double q1[3],
+    void setDubinsSampleMultiplicator(int sample_mult);
+
+    std::vector< std::array<double,3> > calculatePath(
+            std::array<double,3> q0,
+            std::array<double,3> q1,
             int samples = 1000
         );
 
 private:
 
+    void convert_and_append(const std::vector<double>& X, const std::vector<double>& Y,
+        std::vector< std::array<double, 3> >& out);
 
     double m_min_turning_radius;
+    int m_dubins_sample_multi;
+    bool m_use_clothoids;
+    bool m_use_dubins;
 };

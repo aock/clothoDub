@@ -3,16 +3,22 @@
 
 int main(int argc, char** argv)
 {
-    std::cout << "hello" << std::endl;
 
     ClothoDub clo = ClothoDub(5.0);
 
-    double src_pose[3] = {0.0, 0.0, 0.0};
+    std::array<double,3> src_pose = {0.0, 0.0, 0.0};
 
-    double target_pose[3] = {5.0, 1.0, -2.0};
+    std::array<double,3> target_pose = {0.0, 10.0, -2.0};
 
-    std::vector<double*> path = clo.calculatePath(src_pose, target_pose);
+
+    clo.setDubinsSampleMultiplicator(1);
+    std::vector<std::array<double,3> > path = clo.calculatePath(src_pose, target_pose);
     
 
     std::cout << "path size: " << path.size() << std::endl;
+
+    // for(int i=0; i<path.size(); i++)
+    // {
+    //     std::cout << i << ": (" << path[i][0] << "," << path[i][1] << ")" << std::endl;
+    // }
 }
