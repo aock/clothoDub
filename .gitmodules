@@ -1,0 +1,6 @@
+[submodule "ext/g1fitting"]
+	path = ext/g1fitting
+	url = https://github.com/ozymandium/g1fitting.git
+[submodule "ext/Dubins-Curves"]
+	path = ext/Dubins-Curves
+	url = https://github.com/AndrewWalker/Dubins-Curves.git
