@@ -57,9 +57,9 @@ if __name__ == '__main__':
     theta0 = np.pi/2.0
 
     # TARGET POSE
-    x1 = -10.0
+    x1 = 1.0
     y1 = 5.0
-    theta1 = np.pi
+    theta1 = np.pi/2.0 - 0.2
 
     # DUBIN
 
@@ -72,8 +72,8 @@ if __name__ == '__main__':
     configurations, _ = path.sample_many(0.1)
 
     test_qs = np.array(configurations)
-    plot_dubins_path(test_qs)
-    plt.show()
+    # plot_dubins_path(test_qs)
+    # plt.show()
 
 
     print("length of dubins path:")
