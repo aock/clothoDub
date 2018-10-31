@@ -12,10 +12,13 @@ int main(int argc, char** argv)
 
 
     clo.setDubinsSampleMultiplicator(1);
-    std::vector<std::array<double,3> > path = clo.calculatePath(src_pose, target_pose);
+
+    double path_length;
+
+    std::vector<std::array<double,3> > path = clo.calculatePath(src_pose, target_pose, path_length);
     
 
-    std::cout << "path size: " << path.size() << std::endl;
+    std::cout << "path length: " << path_length << std::endl;
 
     // for(int i=0; i<path.size(); i++)
     // {

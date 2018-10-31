@@ -22,6 +22,7 @@ public:
     std::vector< std::array<double,3> > calculatePath(
             std::array<double,3> q0,
             std::array<double,3> q1,
+            double& length,
             int samples = 1000
         );
 

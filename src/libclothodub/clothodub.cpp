@@ -17,6 +17,7 @@ void ClothoDub::setDubinsSampleMultiplicator(int sample_mult)
 std::vector< std::array<double,3> > ClothoDub::calculatePath(
     std::array<double,3> q0,
     std::array<double,3> q1,
+    double& length,
     int samples)
 { 
     std::vector< std::array<double,3> > out_path;
@@ -33,7 +34,7 @@ std::vector< std::array<double,3> > ClothoDub::calculatePath(
         dubins_shortest_path(&path, q0.data(),  q1.data() , m_min_turning_radius);
 
         double path_len = dubins_path_length(&path);
-        std::cout << "Dubins path length: " << path_len << std::endl;
+        // std::cout << "Dubins path length: " << path_len << std::endl;
 
         std::vector< std::array<double,3> > dubins_path;
 
@@ -68,13 +69,13 @@ std::vector< std::array<double,3> > ClothoDub::calculatePath(
 
         for(int i=1; i < dubins_path.size(); i++)
         {
-            double x0 = dubins_path[i-1][0];
-            double y0 = dubins_path[i-1][1];
-            double theta0 = dubins_path[i-1][2];
+            const double x0 = dubins_path[i-1][0];
+            const double y0 = dubins_path[i-1][1];
+            const double theta0 = dubins_path[i-1][2];
 
-            double x1 = dubins_path[i][0];
-            double y1 = dubins_path[i][1];
-            double theta1 = dubins_path[i][2];
+            const double x1 = dubins_path[i][0];
+            const double y1 = dubins_path[i][1];
+            const double theta1 = dubins_path[i][2];
 
             double k;
             double dk;
@@ -85,23 +86,20 @@ std::vector< std::array<double,3> > ClothoDub::calculatePath(
             clothoid_path_length += L;
         }
 
-        std::cout << "Path length with clothoid: " << clothoid_path_length << std::endl;
+        length = clothoid_path_length;
 
         if(clothoid_path_length > 0.0)
         {
             int prev_set_samples = 0;
             for(int i=1; i < dubins_path.size(); i++)
             {
-                double x0 = dubins_path[i-1][0];
-                double y0 = dubins_path[i-1][1];
-                double theta0 = dubins_path[i-1][2];
+                const double x0 = dubins_path[i-1][0];
+                const double y0 = dubins_path[i-1][1];
+                const double theta0 = dubins_path[i-1][2];
 
-                double x1 = dubins_path[i][0];
-                double y1 = dubins_path[i][1];
-                double theta1 = dubins_path[i][2];
-
-                std::cout << "(" << x0 << "," << y0 << "," << theta0 
-                        << ") -> (" << x1 << "," << y1 << "," << theta1 << ")" << std::endl;
+                const double x1 = dubins_path[i][0];
+                const double y1 = dubins_path[i][1];
+                const double theta1 = dubins_path[i][2];
 
                 double k;
                 double dk;
@@ -127,10 +125,7 @@ std::vector< std::array<double,3> > ClothoDub::calculatePath(
                 convert_and_append(X,Y,out_path);
 
                 prev_set_samples += num_seg_samples;
-
-
             }
-
         }
 
     } else if(m_use_clothoids && !m_use_dubins) {
@@ -149,6 +144,8 @@ std::vector< std::array<double,3> > ClothoDub::calculatePath(
 
         int res = Clothoid::buildClothoid(x0, y0, theta0, x1, y1, theta1, k, dk, L);
 
+        length = L;
+
         std::vector<double> X, Y;
         res = Clothoid::pointsOnClothoid(x0, y0, theta0, k, dk, L, samples, X, Y);
 
@@ -156,7 +153,26 @@ std::vector< std::array<double,3> > ClothoDub::calculatePath(
 
     } else if(!m_use_clothoids && m_use_dubins)
     {
-        std::cout << "not implemented" << std::endl;
+
+        DubinsPath path;
+
+        dubins_shortest_path(&path, q0.data(),  q1.data() , m_min_turning_radius);
+
+        double path_len = dubins_path_length(&path);
+
+        length = path_len;
+
+        // remove +1?
+        double step = path_len / static_cast<double>(samples-1);
+
+        for(int i=0; i<samples; i++)
+        {
+            std::array<double, 3> q;
+            double curr_len = step * i;
+            dubins_path_sample(&path, curr_len, q.data() );
+            out_path.push_back(q);
+        }
+
     }
 
     return out_path;
